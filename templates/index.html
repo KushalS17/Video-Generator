@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Generator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Video Generator</h1>
+        
+        <form id="videoForm" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="fileInput">Select a text file:</label>
+                <input type="file" id="fileInput" name="file" accept=".txt,.pdf,.docx" required>
+                <small style="color: #666; margin-top: 0.5rem; display: block;">
+                    Supported formats: .txt, .pdf, .docx files
+                </small>
+            </div>
+            
+            <button type="submit" class="btn" id="generateBtn">
+                Generate Video
+            </button>
+        </form>
+        
+        <div id="loading" class="loading" style="display: none;">
+            Generating video... Please wait.
+        </div>
+        
+        <div id="error" class="error" style="display: none;"></div>
+        
+        <div id="success" class="success" style="display: none;"></div>
+        
+        <div id="videoContainer" class="video-container" style="display: none;">
+            <video id="generatedVideo" controls>
+                Your browser does not support the video tag.
+            </video>
+            <br>
+            <a id="downloadBtn" class="download-btn" download>
+                Download Video
+            </a>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('videoForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const fileInput = document.getElementById('fileInput');
+            const file = fileInput.files[0];
+            
+            if (!file) {
+                document.getElementById('error').textContent = 'Please select a file';
+                document.getElementById('error').style.display = 'block';
+                return;
+            }
+            
+            const generateBtn = document.getElementById('generateBtn');
+            const loading = document.getElementById('loading');
+            const error = document.getElementById('error');
+            const success = document.getElementById('success');
+            const videoContainer = document.getElementById('videoContainer');
+            
+            // Hide previous results
+            error.style.display = 'none';
+            success.style.display = 'none';
+            videoContainer.style.display = 'none';
+            
+            // Show loading state
+            generateBtn.disabled = true;
+            loading.style.display = 'block';
+            
+            try {
+                const formData = new FormData();
+                formData.append('file', file);
+                
+                const response = await fetch('/generate', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok && result.success) {
+                    // Show success message
+                    success.textContent = 'Video generated successfully!';
+                    success.style.display = 'block';
+                    
+                    // Show video
+                    const video = document.getElementById('generatedVideo');
+                    video.src = `/download/${result.video_path}`;
+                    
+                    // Set download link
+                    const downloadBtn = document.getElementById('downloadBtn');
+                    downloadBtn.href = `/download/${result.video_path}`;
+                    downloadBtn.download = result.video_path;
+                    
+                    videoContainer.style.display = 'block';
+                } else {
+                    throw new Error(result.error || 'Failed to generate video');
+                }
+            } catch (err) {
+                error.textContent = err.message;
+                error.style.display = 'block';
+            } finally {
+                generateBtn.disabled = false;
+                loading.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

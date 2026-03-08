@@ -1,0 +1,220 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family: 'Segoe UI', sans-serif;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+    background:black;
+    position:relative;
+}
+
+/* Animated Aurora Background */
+
+body::before{
+    content:"";
+    position:absolute;
+    width:200%;
+    height:200%;
+    background:
+        radial-gradient(circle at 20% 30%, #6a5cff, transparent 40%),
+        radial-gradient(circle at 80% 70%, #ff3cac, transparent 40%),
+        radial-gradient(circle at 50% 50%, #00f2ff, transparent 40%);
+    animation: aurora 12s infinite linear;
+    z-index:-1;
+    top:0;
+    left:0;
+}
+
+@keyframes aurora{
+    0%{transform:translate(0,0) rotate(0deg);}
+    50%{transform:translate(-10%,10%) rotate(180deg);}
+    100%{transform:translate(0,0) rotate(360deg);}
+}
+
+/* Main Container */
+
+.container{
+    backdrop-filter: blur(25px);
+    background: rgba(255,255,255,0.08);
+    border:1px solid rgba(255,255,255,0.2);
+    padding:2.5rem;
+    border-radius:20px;
+    width:90%;
+    max-width:650px;
+    color:white;
+    box-shadow:
+        0 0 40px rgba(0,0,0,0.6),
+        inset 0 0 20px rgba(255,255,255,0.05);
+    position:relative;
+    z-index:1;
+}
+
+/* Title */
+
+h1{
+    text-align:center;
+    margin-bottom:2rem;
+    font-size:2.8rem;
+    letter-spacing:1px;
+    background: linear-gradient(90deg,#00f2ff,#ff3cac,#6a5cff);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+}
+
+/* Form */
+
+.form-group{
+    margin-bottom:1.5rem;
+}
+
+label{
+    display:block;
+    margin-bottom:8px;
+    font-weight:600;
+    letter-spacing:0.5px;
+    color:#ddd;
+}
+
+/* Inputs */
+
+input[type="file"],
+textarea{
+    width:100%;
+    padding:1rem;
+    border-radius:10px;
+    border:1px solid rgba(255,255,255,0.2);
+    background:rgba(255,255,255,0.08);
+    color:white;
+    font-size:1rem;
+    transition: all 0.3s ease;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+textarea{
+    min-height:130px;
+    resize:vertical;
+}
+
+input[type="file"]:hover,
+textarea:hover{
+    border-color:#00f2ff;
+}
+
+input[type="file"]:focus,
+textarea:focus{
+    outline:none;
+    border-color:#ff3cac;
+    box-shadow:0 0 10px rgba(255,60,172,0.5);
+}
+
+/* File Upload Button */
+
+input[type="file"]::file-selector-button{
+    background: linear-gradient(45deg,#6a5cff,#ff3cac);
+    border:none;
+    padding:8px 14px;
+    border-radius:6px;
+    color:white;
+    cursor:pointer;
+    margin-right:10px;
+    transition:all 0.3s ease;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+input[type="file"]::file-selector-button:hover{
+    transform:scale(1.08);
+}
+
+/* Main Button */
+
+.btn{
+    width:100%;
+    padding:1rem;
+    border-radius:12px;
+    border:none;
+    background:linear-gradient(90deg,#00f2ff,#6a5cff,#ff3cac);
+    color:white;
+    font-size:1.1rem;
+    cursor:pointer;
+    margin-top:10px;
+    transition:all 0.3s ease;
+    box-shadow:0 0 15px rgba(0,242,255,0.5);
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 0 25px rgba(255,60,172,0.7);
+}
+
+.btn:disabled{
+    opacity:0.5;
+    cursor:not-allowed;
+}
+
+/* Status Messages */
+
+.loading{
+    margin-top:1rem;
+    text-align:center;
+    color:#00f2ff;
+    font-weight:600;
+}
+
+.error{
+    margin-top:1rem;
+    background:#ff3b3b;
+    padding:12px;
+    border-radius:8px;
+    text-align:center;
+    color:white;
+}
+
+.success{
+    margin-top:1rem;
+    background:#2ecc71;
+    padding:12px;
+    border-radius:8px;
+    text-align:center;
+    color:white;
+}
+
+/* Video Section */
+
+.video-container{
+    margin-top:2rem;
+    text-align:center;
+}
+
+video{
+    width:100%;
+    border-radius:10px;
+    box-shadow:0 0 20px rgba(0,0,0,0.7);
+}
+
+/* Download Button */
+
+.download-btn{
+    display:inline-block;
+    margin-top:15px;
+    padding:10px 20px;
+    border-radius:10px;
+    background:linear-gradient(90deg,#2ecc71,#00f2ff);
+    color:white;
+    text-decoration:none;
+    transition:all 0.3s ease;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.download-btn:hover{
+    transform:scale(1.05);
+    box-shadow:0 0 20px rgba(0,255,200,0.6);
+}
